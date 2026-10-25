@@ -1,0 +1,932 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aljon Marc M. Fabros | Portfolio</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        :root {
+            --background: #050d12;
+            --card: #09171e;
+            --mint: #65e3c2;
+            --text: #f0f5f5;
+            --muted: #8ba2ad;
+            --border: #17313a;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: var(--background);
+            color: var(--text);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        /* ANIMATED BACKGROUND */
+
+        #background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background:
+                radial-gradient(circle at 10% 20%, #0d443a35, transparent 40%),
+                radial-gradient(circle at 90% 80%, #173c6735, transparent 40%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        /* NAVIGATION */
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 8%;
+            background: rgba(5, 13, 18, 0.9);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: var(--mint);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 25px;
+        }
+
+        .nav-links a {
+            color: var(--muted);
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--mint);
+        }
+
+        /* GENERAL */
+
+        .container {
+            width: 85%;
+            max-width: 1150px;
+            margin: auto;
+        }
+
+        section {
+            padding: 90px 0;
+            scroll-margin-top: 70px;
+        }
+
+        .section-title {
+            font-size: 38px;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+        }
+
+        .section-subtitle {
+            color: var(--mint);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        .description {
+            color: var(--muted);
+        }
+
+        /* HERO */
+
+        .hero {
+            min-height: 90vh;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 60px;
+        }
+
+        .hero-content {
+            flex: 1;
+        }
+
+        .hero h1 {
+            font-size: clamp(40px, 6vw, 75px);
+            line-height: 1.15;
+            margin: 15px 0;
+        }
+
+        .hero h1 span {
+            color: var(--mint);
+        }
+
+        .hero p {
+            color: var(--muted);
+            max-width: 600px;
+            font-size: 17px;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 22px;
+            text-decoration: none;
+            border: 1px solid var(--mint);
+            color: var(--mint);
+            border-radius: 5px;
+            transition: 0.3s;
+            display: inline-block;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 14px;
+        }
+
+        .btn.primary {
+            background: var(--mint);
+            color: #061510;
+        }
+
+        .btn:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 0 20px #65e3c230;
+        }
+
+        /* ANIMATED PROFILE PICTURE */
+
+        .profile-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .profile-border {
+            width: 300px;
+            height: 300px;
+            padding: 6px;
+            border-radius: 50%;
+            background: conic-gradient(
+                var(--mint),
+                transparent,
+                #4b8cff,
+                var(--mint)
+            );
+            animation: rotate 5s linear infinite;
+            box-shadow: 0 0 40px #65e3c220;
+        }
+
+        .profile-picture {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 5px solid var(--background);
+            background: #10252c;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .profile-picture img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: none;
+        }
+
+        .profile-placeholder {
+            text-align: center;
+            color: var(--muted);
+            padding: 20px;
+        }
+
+        .profile-placeholder strong {
+            display: block;
+            font-size: 50px;
+            color: var(--mint);
+        }
+
+        @keyframes rotate {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* CARDS */
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .card {
+            background: rgba(9, 23, 30, 0.9);
+            border: 1px solid var(--border);
+            padding: 28px;
+            position: relative;
+            transition: 0.3s;
+        }
+
+        .card::before,
+        .card::after {
+            content: "";
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            border-color: var(--mint);
+            border-style: solid;
+        }
+
+        .card::before {
+            top: -1px;
+            left: -1px;
+            border-width: 2px 0 0 2px;
+        }
+
+        .card::after {
+            bottom: -1px;
+            right: -1px;
+            border-width: 0 2px 2px 0;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: var(--mint);
+        }
+
+        .card h3 {
+            color: var(--mint);
+            font-size: 18px;
+            margin-bottom: 12px;
+        }
+
+        .card p {
+            color: var(--muted);
+            font-size: 14px;
+        }
+
+        /* PROJECT TAGS */
+
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 18px;
+        }
+
+        .tag {
+            border: 1px solid #28524f;
+            padding: 5px 11px;
+            color: var(--mint);
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        /* SKILLS */
+
+        .skills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .skill {
+            padding: 8px 15px;
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        /* EDUCATION */
+
+        .education-item {
+            border-left: 2px solid var(--mint);
+            padding-left: 25px;
+            margin-bottom: 30px;
+        }
+
+        .education-item h3 {
+            color: white;
+            margin-bottom: 5px;
+        }
+
+        .education-item p {
+            color: var(--muted);
+        }
+
+        /* CONTACT */
+
+        .contact-info p {
+            margin: 12px 0;
+            color: var(--muted);
+            overflow-wrap: anywhere;
+        }
+
+        .contact-info a {
+            color: var(--mint);
+            text-decoration: none;
+        }
+
+        /* SCROLL ANIMATION */
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* FOOTER */
+
+        footer {
+            text-align: center;
+            padding: 25px;
+            border-top: 1px solid var(--border);
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        /* MOBILE */
+
+        @media (max-width: 768px) {
+            nav {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .nav-links {
+                justify-content: center;
+                flex-wrap: wrap;
+                gap: 15px;
+                font-size: 13px;
+            }
+
+            .container {
+                width: 90%;
+            }
+
+            .hero {
+                flex-direction: column-reverse;
+                text-align: center;
+                justify-content: center;
+                padding: 60px 0;
+            }
+
+            .hero p {
+                margin: auto;
+            }
+
+            .buttons {
+                justify-content: center;
+            }
+
+            .profile-border {
+                width: 220px;
+                height: 220px;
+            }
+
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+            .section-title {
+                font-size: 30px;
+            }
+
+            section {
+                padding: 60px 0;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation: none !important;
+                scroll-behavior: auto !important;
+                transition: none !important;
+            }
+
+            .reveal {
+                opacity: 1;
+                transform: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<canvas id="background"></canvas>
+
+<nav>
+    <a href="#home" class="logo">ALJON<span>.</span>FABROS</a>
+
+    <div class="nav-links">
+        <a href="#home">Home</a>
+        <a href="#about">About</a>
+        <a href="#skills">Skills</a>
+        <a href="#projects">Projects</a>
+        <a href="#education">Education</a>
+        <a href="#contact">Contact</a>
+    </div>
+</nav>
+
+<main class="container">
+
+    <!-- HOME -->
+    <section class="hero" id="home">
+
+        <div class="hero-content reveal">
+            <div class="section-subtitle">BSIT Student | Aspiring IT Support</div>
+
+            <h1>
+                ALJON MARC M.<br>
+                <span>FABROS</span>
+            </h1>
+
+            <p>
+                An Information Technology student developing skills in
+                computer systems, technical troubleshooting, networking
+                fundamentals, and user support. Eager to learn, solve
+                problems, and grow into a dependable IT professional.
+            </p>
+
+            <div class="buttons">
+                <a href="#projects" class="btn primary">View My Projects</a>
+                <a href="#contact" class="btn">Contact Me</a>
+            </div>
+        </div>
+
+        <div class="profile-container reveal">
+            <div class="profile-border">
+                <div class="profile-picture" id="profilePicture">
+                    <img id="profileImage" alt="Aljon Marc M. Fabros">
+
+                    <div class="profile-placeholder" id="profilePlaceholder">
+                        <strong>AMF</strong>
+                        <span>Click to add photo</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about" class="reveal">
+        <div class="section-subtitle">Introduction</div>
+        <h2 class="section-title">ABOUT ME</h2>
+
+        <div class="card">
+            <p>
+                I am a Bachelor of Science in Information Technology student
+                pursuing an entry-level IT Support role. Through coursework
+                and practice activities, I have become familiar with
+                foundational computer hardware, operating system
+                configuration, peripheral setup, and basic network
+                connectivity concepts.
+                I am interested in helping users, documenting technical
+                issues, and following structured troubleshooting procedures.
+                I am ready to learn workplace support tools and gain
+                hands-on experience.
+            </p>
+        </div>
+    </section>
+
+    <!-- SKILLS -->
+    <section id="skills" class="reveal">
+        <div class="section-subtitle">My Capabilities</div>
+        <h2 class="section-title">RELEVANT SKILLS</h2>
+
+        <div class="grid">
+
+            <div class="card">
+                <h3>Technical Support</h3>
+                <p>
+                    Basic troubleshooting, peripheral setup,
+                    software configuration, and technical documentation.
+                </p>
+            </div>
+
+            <div class="card">
+                <h3>Computer Systems</h3>
+                <p>
+                    Knowledge of hardware components, operating
+                    system fundamentals, and file organization.
+                </p>
+            </div>
+
+            <div class="card">
+                <h3>Networking</h3>
+                <p>
+                    LAN and Wi-Fi fundamentals, IP addressing
+                    concepts, and network connectivity checks.
+                </p>
+            </div>
+
+            <div class="card">
+                <h3>User Support & Productivity</h3>
+                <p>
+                    Clear communication, patient assistance,
+                    issue recording, document preparation,
+                    and organized record keeping.
+                </p>
+            </div>
+
+        </div>
+
+        <div class="skills">
+            <span class="skill">Troubleshooting Mindset</span>
+            <span class="skill">Communication</span>
+            <span class="skill">Organization</span>
+            <span class="skill">Teamwork</span>
+            <span class="skill">Adaptability</span>
+            <span class="skill">Microsoft Office</span>
+        </div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section id="projects" class="reveal">
+        <div class="section-subtitle">Selected Work</div>
+        <h2 class="section-title">PROJECTS</h2>
+
+        <div class="grid">
+
+            <div class="card">
+                <h3>BARANGAY DATA MANAGEMENT SYSTEM</h3>
+
+                <p>
+                    A system concept for organizing resident records and
+                    supporting barangay services such as certificate
+                    requests, assistance requests, announcements, and reports.
+                </p>
+
+                <div class="tags">
+                    <span class="tag">PHP</span>
+                    <span class="tag">MySQL</span>
+                    <span class="tag">XAMPP</span>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>MEAL APP</h3>
+
+                <p>
+                    A Flutter application for browsing meal information
+                    and using meal categories and favorites, with
+                    Supabase used as a data source.
+                </p>
+
+                <div class="tags">
+                    <span class="tag">Flutter</span>
+                    <span class="tag">Dart</span>
+                    <span class="tag">Supabase</span>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- EDUCATION -->
+    <section id="education" class="reveal">
+        <div class="section-subtitle">Academic Background</div>
+        <h2 class="section-title">EDUCATION</h2>
+
+        <div class="education-item">
+            <h3>Bachelor of Science in Information Technology (BSIT)</h3>
+            <p>Northeastern College</p>
+            <p>2024 – Present</p>
+        </div>
+    </section>
+
+    <!-- ACADEMIC ACTIVITIES -->
+    <section id="activities" class="reveal">
+        <div class="section-subtitle">Practical Learning</div>
+        <h2 class="section-title">ACADEMIC ACTIVITIES</h2>
+
+        <div class="grid">
+
+            <div class="card">
+                <h3>Computer Setup and Maintenance Exercises</h3>
+                <p>
+                    Studied computer components, peripheral connections,
+                    and routine system setup procedures. Practiced using
+                    checklists to identify basic device and configuration issues.
+                </p>
+            </div>
+
+            <div class="card">
+                <h3>Network Fundamentals Exercises</h3>
+                <p>
+                    Reviewed local network concepts, IP addressing,
+                    and common connectivity troubleshooting steps.
+                </p>
+            </div>
+
+            <div class="card">
+                <h3>Technical Documentation Activity</h3>
+                <p>
+                    Prepared organized notes outlining steps for checking
+                    and reporting common technical problems.
+                </p>
+            </div>
+
+            <div class="card">
+                <h3>Core Competencies</h3>
+                <p>
+                    Customer assistance, troubleshooting mindset,
+                    technical documentation, communication,
+                    organization, teamwork, and adaptability.
+                </p>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- PROFESSIONAL DEVELOPMENT -->
+    <section id="development" class="reveal">
+        <div class="section-subtitle">Continuous Learning</div>
+        <h2 class="section-title">PROFESSIONAL DEVELOPMENT</h2>
+
+        <div class="card">
+            <p>
+                This section is reserved for professional development
+                activities, including ProfDev seminars, training
+                certificates, courses, and field-trip participation.
+                Add the actual activity details and certificates here.
+            </p>
+        </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="reveal">
+        <div class="section-subtitle">Get In Touch</div>
+        <h2 class="section-title">CONTACT ME</h2>
+
+        <div class="grid">
+
+            <div class="card contact-info">
+                <h3>Contact Information</h3>
+
+                <p>
+                    <strong>Email:</strong><br>
+                    <a href="mailto:faljonmarc@gmail.com">
+                        faljonmarc@gmail.com
+                    </a>
+                </p>
+
+                <p>
+                    <strong>Phone:</strong><br>
+                    <a href="tel:+639162629775">
+                        +63 916 262 9775
+                    </a>
+                </p>
+
+                <p>
+                    <strong>Location:</strong><br>
+                    Purok 3, Divisoria, Dante St.
+                </p>
+            </div>
+
+            <div class="card">
+                <h3>Resume</h3>
+
+                <p class="description">
+                    Select your resume PDF to enable the download button.
+                    For a public portfolio, remove sensitive personal
+                    information from the resume before publishing it.
+                </p>
+
+                <div class="buttons">
+                    <label for="resumeInput" class="btn">
+                        Choose Resume PDF
+                    </label>
+
+                    <input
+                        type="file"
+                        id="resumeInput"
+                        accept="application/pdf"
+                        hidden
+                    >
+
+                    <a
+                        href="#"
+                        id="resumeDownload"
+                        class="btn primary"
+                        download="Aljon_Fabros_Resume.pdf"
+                        style="display:none;"
+                    >
+                        Download Resume
+                    </a>
+                </div>
+
+                <p id="resumeStatus" class="description"
+                   style="font-size:12px;margin-top:12px;">
+                    No resume selected.
+                </p>
+            </div>
+
+        </div>
+    </section>
+
+</main>
+
+<footer>
+    <p>
+        © <span id="year"></span> Aljon Marc M. Fabros.
+        All Rights Reserved.
+    </p>
+</footer>
+
+<script>
+    /* ANIMATED BACKGROUND PARTICLES */
+
+    const canvas = document.getElementById("background");
+    const ctx = canvas.getContext("2d");
+
+    let particles = [];
+
+    function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        particles = [];
+
+        const count = Math.min(
+            100,
+            Math.floor(window.innerWidth / 12)
+        );
+
+        for (let i = 0; i < count; i++) {
+            particles.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                radius: Math.random() * 1.5 + 0.5,
+                speedX: (Math.random() - 0.5) * 0.5,
+                speedY: (Math.random() - 0.5) * 0.5
+            });
+        }
+    }
+
+    function animateBackground() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        particles.forEach(particle => {
+            particle.x += particle.speedX;
+            particle.y += particle.speedY;
+
+            if (particle.x < 0 || particle.x > canvas.width) {
+                particle.speedX *= -1;
+            }
+
+            if (particle.y < 0 || particle.y > canvas.height) {
+                particle.speedY *= -1;
+            }
+
+            ctx.beginPath();
+
+            ctx.arc(
+                particle.x,
+                particle.y,
+                particle.radius,
+                0,
+                Math.PI * 2
+            );
+
+            ctx.fillStyle = "rgba(101, 227, 194, 0.35)";
+            ctx.fill();
+        });
+
+        requestAnimationFrame(animateBackground);
+    }
+
+    window.addEventListener("resize", resizeCanvas);
+
+    resizeCanvas();
+    animateBackground();
+
+
+    /* SCROLL REVEAL ANIMATION */
+
+    const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add("visible");
+            }
+        });
+    }, {
+        threshold: 0.12
+    });
+
+    document.querySelectorAll(".reveal").forEach(element => {
+        observer.observe(element);
+    });
+
+
+    /* PROFILE PICTURE UPLOAD */
+
+    const profilePicture = document.getElementById("profilePicture");
+    const profileImage = document.getElementById("profileImage");
+    const profilePlaceholder = document.getElementById("profilePlaceholder");
+
+    const imageInput = document.createElement("input");
+
+    imageInput.type = "file";
+    imageInput.accept = "image/*";
+    imageInput.hidden = true;
+
+    document.body.appendChild(imageInput);
+
+    profilePicture.addEventListener("click", () => {
+        imageInput.click();
+    });
+
+    imageInput.addEventListener("change", event => {
+        const file = event.target.files[0];
+
+        if (file) {
+            profileImage.src = URL.createObjectURL(file);
+            profileImage.style.display = "block";
+            profilePlaceholder.style.display = "none";
+        }
+    });
+
+
+    /* RESUME PDF SELECTION */
+
+    const resumeInput = document.getElementById("resumeInput");
+    const resumeDownload = document.getElementById("resumeDownload");
+    const resumeStatus = document.getElementById("resumeStatus");
+
+    let resumeURL = null;
+
+    resumeInput.addEventListener("change", event => {
+        const file = event.target.files[0];
+
+        if (file && file.type === "application/pdf") {
+            if (resumeURL) {
+                URL.revokeObjectURL(resumeURL);
+            }
+
+            resumeURL = URL.createObjectURL(file);
+
+            resumeDownload.href = resumeURL;
+            resumeDownload.style.display = "inline-block";
+
+            resumeStatus.textContent =
+                "Selected resume: " + file.name;
+        } else {
+            resumeStatus.textContent =
+                "Please select a valid PDF file.";
+        }
+    });
+
+
+    /* AUTOMATIC COPYRIGHT YEAR */
+
+    document.getElementById("year").textContent =
+        new Date().getFullYear();
+</script>
+
+</body>
+</html>
