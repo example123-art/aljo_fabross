@@ -218,26 +218,12 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            cursor: pointer;
         }
 
         .profile-picture img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            display: none;
-        }
-
-        .profile-placeholder {
-            text-align: center;
-            color: var(--muted);
-            padding: 20px;
-        }
-
-        .profile-placeholder strong {
-            display: block;
-            font-size: 50px;
-            color: var(--mint);
         }
 
         @keyframes rotate {
@@ -618,14 +604,9 @@
 
         <div class="profile-container reveal">
             <div class="profile-border">
-                <div class="profile-picture" id="profilePicture">
-                    <!-- EXACT FILENAME FROM SCREENSHOT -->
-                    <img id="profileImage" src="pfp.png" alt="Aljon Marc M. Fabros" style="display: block;">
-
-                    <div class="profile-placeholder" id="profilePlaceholder" style="display: none;">
-                        <strong>AMF</strong>
-                        <span>Click to add photo</span>
-                    </div>
+                <div class="profile-picture">
+                    <!-- ENSURE IMAGE IS NAMED pfp.png -->
+                    <img src="pfp.png" alt="Aljon Marc M. Fabros">
                 </div>
             </div>
         </div>
@@ -933,38 +914,20 @@
                 <h3>Resume</h3>
 
                 <p class="description">
-                    Select your resume PDF to enable the download button.
-                    For a public portfolio, remove sensitive personal
-                    information from the resume before publishing it.
+                    My resume is available for viewing and download.
+                    Sensitive personal information has been removed for public viewing.
                 </p>
 
-                <div class="buttons">
-                    <label for="resumeInput" class="btn">
-                        Choose Resume PDF
-                    </label>
-
-                    <input
-                        type="file"
-                        id="resumeInput"
-                        accept="application/pdf"
-                        hidden
-                    >
-
+                <div class="buttons" style="margin-top: 20px;">
+                    <!-- HARDCODED RESUME LINK -->
                     <a
-                        href="#"
-                        id="resumeDownload"
+                        href="resume.pdf"
                         class="btn primary"
                         download="Aljon_Fabros_Resume.pdf"
-                        style="display:none;"
                     >
                         Download Resume
                     </a>
                 </div>
-
-                <p id="resumeStatus" class="description"
-                   style="font-size:12px;margin-top:12px;">
-                    No resume selected.
-                </p>
             </div>
 
         </div>
@@ -1061,64 +1024,6 @@
 
     document.querySelectorAll(".reveal").forEach(element => {
         observer.observe(element);
-    });
-
-
-    /* PROFILE PICTURE UPLOAD (Optional if image exists) */
-    const profilePicture = document.getElementById("profilePicture");
-    const profileImage = document.getElementById("profileImage");
-    const profilePlaceholder = document.getElementById("profilePlaceholder");
-
-    const imageInput = document.createElement("input");
-
-    imageInput.type = "file";
-    imageInput.accept = "image/*";
-    imageInput.hidden = true;
-
-    document.body.appendChild(imageInput);
-
-    profilePicture.addEventListener("click", () => {
-        imageInput.click();
-    });
-
-    imageInput.addEventListener("change", event => {
-        const file = event.target.files[0];
-
-        if (file) {
-            profileImage.src = URL.createObjectURL(file);
-            profileImage.style.display = "block";
-            profilePlaceholder.style.display = "none";
-        }
-    });
-
-
-    /* RESUME PDF SELECTION */
-
-    const resumeInput = document.getElementById("resumeInput");
-    const resumeDownload = document.getElementById("resumeDownload");
-    const resumeStatus = document.getElementById("resumeStatus");
-
-    let resumeURL = null;
-
-    resumeInput.addEventListener("change", event => {
-        const file = event.target.files[0];
-
-        if (file && file.type === "application/pdf") {
-            if (resumeURL) {
-                URL.revokeObjectURL(resumeURL);
-            }
-
-            resumeURL = URL.createObjectURL(file);
-
-            resumeDownload.href = resumeURL;
-            resumeDownload.style.display = "inline-block";
-
-            resumeStatus.textContent =
-                "Selected resume: " + file.name;
-        } else {
-            resumeStatus.textContent =
-                "Please select a valid PDF file.";
-        }
     });
 
 
