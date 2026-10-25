@@ -184,52 +184,56 @@
             box-shadow: 0 0 20px #65e3c230;
         }
 
-        /* ANIMATED PROFILE PICTURE */
-
+        /* ================= WAVY MORPHING PROFILE PICTURE ================= */
         .profile-container {
             display: flex;
             align-items: center;
             justify-content: center;
             flex-shrink: 0;
+            position: relative;
+            width: 320px;
+            height: 320px;
         }
 
-        .profile-border {
-            width: 300px;
-            height: 300px;
-            padding: 6px;
-            border-radius: 50%;
-            background: conic-gradient(
-                var(--mint),
-                transparent,
-                #4b8cff,
-                var(--mint)
-            );
-            animation: rotate 5s linear infinite;
-            box-shadow: 0 0 40px #65e3c220;
-        }
-
-        .profile-picture {
+        /* Glowing background blob */
+        .profile-blob-bg {
+            position: absolute;
             width: 100%;
             height: 100%;
-            border-radius: 50%;
+            background: linear-gradient(45deg, var(--mint), #4b8cff);
+            animation: morph 6s ease-in-out infinite, pulseGlow 3s infinite alternate;
+            z-index: 1;
+        }
+
+        /* The photo wrapper */
+        .profile-blob-inner {
+            position: relative;
+            width: 290px;
+            height: 290px;
+            background: var(--background);
+            animation: morph 6s ease-in-out infinite;
+            z-index: 2;
             overflow: hidden;
-            border: 5px solid var(--background);
-            background: #10252c;
             display: flex;
             align-items: center;
             justify-content: center;
         }
 
-        .profile-picture img {
+        .profile-blob-inner img {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
 
-        @keyframes rotate {
-            to {
-                transform: rotate(360deg);
-            }
+        @keyframes morph {
+            0%, 100% { border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; }
+            34% { border-radius: 70% 30% 50% 50% / 30% 30% 70% 70%; }
+            67% { border-radius: 100% 60% 60% 100% / 100% 100% 60% 60%; }
+        }
+
+        @keyframes pulseGlow {
+            0% { filter: blur(10px); opacity: 0.5; }
+            100% { filter: blur(20px); opacity: 0.8; }
         }
 
         /* CARDS */
@@ -526,9 +530,13 @@
                 justify-content: center;
             }
 
-            .profile-border {
-                width: 220px;
-                height: 220px;
+            .profile-container {
+                width: 260px;
+                height: 260px;
+            }
+            .profile-blob-inner {
+                width: 230px;
+                height: 230px;
             }
 
             .grid {
@@ -603,11 +611,10 @@
         </div>
 
         <div class="profile-container reveal">
-            <div class="profile-border">
-                <div class="profile-picture">
-                    <!-- ENSURE IMAGE IS NAMED pfp.png -->
-                    <img src="pfp.png" alt="Aljon Marc M. Fabros">
-                </div>
+            <div class="profile-blob-bg"></div>
+            <div class="profile-blob-inner">
+                <!-- ENSURE IMAGE IS NAMED pfp.png -->
+                <img src="pfp.png" alt="Aljon Marc M. Fabros">
             </div>
         </div>
 
